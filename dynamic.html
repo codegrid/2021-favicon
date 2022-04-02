@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<title>デモ：動的にfaviconを変更</title>
+<meta name="viewport" content="width=device-width">
+<link rel="icon" href="icon/aikonn.png" id="link">
+<body>
+
+<h1>デモ：動的にfaviconを変更</h1>
+<p>ボタンを押すとfaviconを別の画像に置きかえます。</p>
+
+<figure>
+<figcaption>現在のfavicon</figcaption>
+<img id="preview" width="64" height="64">
+</figure>
+
+<div>
+<button id="button" disabled>faviconを変更する</button>
+</div>
+
+<footer>
+	<p>作成：<a href="https://github.com/myakura">@myakura</a></p>
+	<p>アイコン：<a href="https://github.com/decomoji/decomoji/releases/tag/v5.19.1">decomoji v5.19.1</a></p>
+</footer>
+
+<script>
+const link = document.querySelector('#link');
+const img = document.querySelector('#preview');
+const button = document.querySelector('#button');
+
+const icons = [
+	{ name: 'aikonn.png', url: 'icon/aikonn.png' },
+	{ name: 'dainamikku.png', url: 'icon/dainamikku.png' },
+];
+
+let iconIndex = icons.findIndex((value) => value.url === link.getAttribute('href'));
+
+button.disabled = false;
+
+button.addEventListener('click', () => {
+	iconIndex = Boolean(iconIndex) ? 0 : 1;
+	updateFavicon(icons[iconIndex]);
+	updatePreview(icons[iconIndex]);
+});
+
+function updateFavicon(icon) {
+	link.href = icon.url;
+}
+
+function updatePreview(icon) {
+	img.src = icon.url;
+	img.alt = icon.name;
+}
+
+updatePreview(icons[iconIndex]);
+</script>
+</body>
+</html>
