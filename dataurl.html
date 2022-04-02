@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<title>デモ：動的にfaviconを変更（data: URL）</title>
+<meta name="viewport" content="width=device-width">
+<link rel="icon" href="icon/aikonn.png" id="link">
+<body>
+
+<h1>デモ：動的にfaviconを変更（data: URL）</h1>
+<p>ボタンを押すとfaviconを別の画像に置きかえます。</p>
+
+<figure>
+<figcaption>現在のfavicon</figcaption>
+<img id="preview" width="64" height="64">
+</figure>
+
+<div>
+<button id="button" disabled>faviconを変更する</button>
+</div>
+
+<footer>
+	<p>作成：<a href="https://github.com/myakura">@myakura</a></p>
+	<p>アイコン：<a href="https://github.com/decomoji/decomoji/releases/tag/v5.19.1">decomoji v5.19.1</a></p>
+</footer>
+
+<script>
+// icon/innrainn.png
+const ICON_INNRAINN_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEVHcEzUN5HTN5HSPJbUN5HUN5HUOJLTOJLVOZPSN5HVOJLSNI7TOJLUOJLTN5HUOJIljV1nAAAAD3RSTlMAd7sRZu7MmVUzRCKI3ao57KO1AAABxUlEQVRIx82UvU4CQRSFL4IKSIyYUGOinQXbaM0bEOMDQGsFbyAWVsRoY42xspPEB9DEWGuMPQUPAEYQC8Jx58fZ+du1IdGTMMm98+3M5c7MIVqYBmbY00auzGdgABUwbUWJPbSIUgnAEBdEt61YIIP3cOxPVaLItaHiLhpEeeDBKu1HufqEZWsYs2jbBfbFTAaskrWpM59uQuxWZjulwuBOTOQlcAn50SqqRCvhUIZQm6ezdXzIpV7D4R6BAl549hkYybVuwt/xnBTQYMkzRADj8UV0wtuwyUu7BsYVDSiIdZnWccViTNo60IXq3zKIt2+XdKAyUed6Pmdj8410IMVPRbK8fcXAAGqict4mHCp0FC3Aui20hJYDpIfiVGTjew5QQvRVHtGpSSD3BC15GpUggSxrblWrpm0BYUtwpC5hHzOytwAOtAqjahTQ3Am0dzAjB+hoqcKkrUXa/VZ/8pH+nwa/zNv+4Mj2B0e2Pzg72P5g6w/8wZLrD6Y8/mBu4PEHQz5/0JXgDzKO9wf5wOL9QSjBH+SNjvUH911Y/uADDH/wASXjRVKyP7iA6Q8ewPAH7xa6P3gB3R+8QCf2Unv8YXH6Bo4tJKP4Y3uHAAAAAElFTkSuQmCC';
+
+const link = document.querySelector('#link');
+const img = document.querySelector('#preview');
+const button = document.querySelector('#button');
+
+const icons = [
+	{ name: 'aikonn.png', url: 'icon/aikonn.png' },
+	{ name: 'innrainn.png', url: ICON_INNRAINN_URL },
+];
+
+let iconIndex = icons.findIndex((value) => value.url === link.getAttribute('href'));
+
+button.disabled = false;
+
+button.addEventListener('click', () => {
+	iconIndex = Boolean(iconIndex) ? 0 : 1;
+	updateFavicon(icons[iconIndex]);
+	updatePreview(icons[iconIndex]);
+});
+
+function updateFavicon(icon) {
+	link.href = icon.url;
+}
+
+function updatePreview(icon) {
+	img.src = icon.url;
+	img.alt = icon.name;
+}
+
+updatePreview(icons[iconIndex]);
+</script>
+</body>
+</html>
