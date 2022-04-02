@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<title>デモ：動的にfaviconを変更（Canvas）</title>
+<meta name="viewport" content="width=device-width">
+<link rel="icon" href="icon/aikonn.png" id="link">
+<body>
+
+<h1>デモ：動的にfaviconを変更（Canvas）</h1>
+<p>ボタンを押すとfaviconを動かします。</p>
+
+<figure>
+<figcaption>現在のfavicon</figcaption>
+<canvas id="canvas" width="64" height="64"></canvas>
+</figure>
+
+<div>
+<button id="button" disabled>アイコンを動かす</button>
+</div>
+
+<footer>
+	<p>作成：<a href="https://github.com/myakura">@myakura</a></p>
+	<p>アイコン：<a href="https://github.com/decomoji/decomoji/releases/tag/v5.19.1">decomoji v5.19.1</a></p>
+</footer>
+
+<script>
+const link = document.querySelector('#link');
+const button = document.querySelector('#button');
+
+const canvas = document.querySelector('#canvas');
+const canvasWidth = canvas.width;
+const canvasHeight = canvas.height;
+const context = canvas.getContext('2d');
+
+const iconImage = new Image();
+iconImage.src = 'icon/aikonn.png';
+
+const X_DELTA = 4;
+let x = 0;
+
+iconImage.onload = () => {
+	context.drawImage(iconImage, x, 0, canvasWidth, canvasHeight);
+}
+
+function updateImagePosition() {
+	x = x % canvasWidth - X_DELTA;
+}
+
+function renderCanvas() {
+	context.clearRect(0, 0, canvasWidth, canvasHeight);
+	context.drawImage(iconImage, x, 0, canvasWidth, canvasHeight);
+	context.drawImage(iconImage, x + 64, 0, canvasWidth, canvasHeight);
+}
+
+function updateFavicon() {
+	const dataUrl = canvas.toDataURL('image/png');
+	link.href = dataUrl;
+}
+
+button.disabled = false;
+
+button.addEventListener('click', () => {
+	updateImagePosition();
+	renderCanvas();
+	updateFavicon();
+});
+</script>
+</body>
+</html>
