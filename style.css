@@ -1,0 +1,13 @@
+img,
+canvas {
+	display: block;
+}
+
+figure {
+	margin-inline: 0;
+	padding: 0;
+}
+
+.stack > * + * {
+	margin-top: var(--gap);
+}
