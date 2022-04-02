@@ -38,9 +38,9 @@ iconImage.src = 'icon/aikonn.png';
 const X_DELTA = 4;
 let x = 0;
 
-iconImage.onload = () => {
+iconImage.addEventListener('load', () => {
 	context.drawImage(iconImage, x, 0, canvasWidth, canvasHeight);
-}
+});
 
 function updateImagePosition() {
 	x = x % canvasWidth - X_DELTA;
