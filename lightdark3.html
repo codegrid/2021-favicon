@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<title>デモ：ライトモードとダークモード</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="icon/aikonn.png">
+<link rel="icon" href="icon/raitomo-do.png" media="(prefers-color-scheme: light)">
+<link rel="icon" href="icon/da-kumo-do.png" media="(prefers-color-scheme: dark)">
+<body>
+
+<h1>デモ：ライトモードとダークモード</h1>
+<p>OSのテーマにあわせてfaviconを変更しています。</p>
+
+<figure class="stack" style="--gap: 1em;">
+<figcaption>現在のfavicon</figcaption>
+<img id="preview" width="64" height="64">
+</figure>
+
+<footer>
+<p>作成：<a href="https://github.com/myakura">@myakura</a></p>
+<p>アイコン：<a href="https://github.com/decomoji/decomoji/releases/tag/v5.20.0">decomoji v5.20.0</a></p>
+</footer>
+
+<script>
+const link = document.querySelector('#link');
+const img = document.querySelector('#preview');
+
+const icons = [
+	{ name: 'aikonn.png', url: 'icon/aikonn.png', media: '' },
+	{ name: 'raitomo-do.png', url: 'icon/raitomo-do.png', media: '(prefers-color-scheme: light)' },
+	{ name: 'da-kumo-do.png', url: 'icon/da-kumo-do.png', media: '(prefers-color-scheme: dark)' },
+];
+
+const mediaQueries = icons.map((icon) => icon.media);
+
+mediaQueries.forEach((query) => {
+	window.matchMedia(query).addEventListener('change', (event) => {
+		if (event.matches) {
+			const icon = findIcon(event.media);
+			updatePreview(icon);
+		}
+	});
+});
+
+function findIcon(query) {
+	return icons.find((icon) => icon.media === query);
+}
+
+function updatePreview(icon) {
+	img.src = icon.url;
+	img.alt = icon.name;
+}
+
+mediaQueries.forEach(query => {
+	if (window.matchMedia(query).matches) {
+		const icon = findIcon(query);
+		updatePreview(icon);
+	}
+});
+</script>
+</body>
+</html>
